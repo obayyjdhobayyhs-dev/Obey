@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EW4 - Premium Apps & Mods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2ecc71;
+      --danger-color: #e74c3c;
+      --dark-color: #2c3e50;
+      --light-color: #ecf0f1;
+      --bg-color: #f8f9fa;
+      --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      --hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px 45px 12px 20px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .apps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 20px 0;
+    }
+
+    .app-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .app-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .app-card-header {
+      position: relative;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .app-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .app-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .tag-mod {
+      background: var(--danger-color);
+      color: white;
+    }
+
+    .tag-updated {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .tag-windows {
+      background: #6c757d;
+      color: white;
+    }
+
+    .tag-mobile {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .tag-all {
+      background: #6f42c1;
+      color: white;
+    }
+
+    .app-card-body {
+      padding: 15px;
+    }
+
+    .app-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-category {
+      font-size: 13px;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+
+    .app-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      margin: 50px auto;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      animation: modalOpen 0.3s ease;
+    }
+
+    @keyframes modalOpen {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+
+    .close-modal:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .app-details-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin: 0 auto 15px;
+      display: block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .app-details-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .app-details-info {
+      margin-bottom: 20px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .download-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #27ae60;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 0;
+      color: #6c757d;
+    }
+
+    .no-results i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    footer {
+      background: var(--dark-color);
+      color: white;
+      padding: 30px 0;
+      margin-top: 40px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .footer-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid #444;
+      font-size: 14px;
+      color: #999;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .search-container {
+        width: 100%;
+      }
+
+      .apps-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+      }
+
+      .modal-content {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="https://i.postimg.cc/zfQVWXp9/1753636056849.png" alt="GameHub Logo">
+          
+        </div>
+        <div class="search-container">
+          <input type="text" class="search-box" id="searchInput" placeholder="Search for apps, games, mods...">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="filter-container">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="game">Games</button>
+      <button class="filter-btn" data-filter="mod">Mods</button>
+      <button class="filter-btn" data-filter="script">Scripts</button>
+      <button class="filter-btn" data-filter="emulator">Emulators</button>
+      <button class="filter-btn" data-filter="entertainment">Entertainment</button>
+      <button class="filter-btn" data-filter="apps">Apps</button>
+    </div>
+
+    <div class="apps-container" id="appsContainer">
+      <!-- App cards will be dynamically inserted here -->
+    </div>
+
+    <div class="no-results" id="noResults" style="display: none;">
+      <i class="fas fa-search"></i>
+      <h3>No results found</h3>
+      <p>Try adjusting your search or filter criteria</p>
+    </div>
+  </main>
+
+  <div class="modal" id="detailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close-modal" id="closeModal">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2 class="app-details-title" id="detailsTitle">App Name</h2>
+      </div>
+      <div class="modal-body">
+        <img id="detailsIcon" src="" alt="" class="app-details-icon">
+        <div class="app-details-info">
+          <div class="info-row">
+            <span class="info-label">Category:</span>
+            <span id="detailsCategory"></span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Version:</span>
+            <span id="detailsVersion"></span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Publisher:</span>
+            <span id="detailsPublisher"></span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Size:</span>
+            <span id="detailsSize"></span>
+          </div>
+        </div>
+        <button class="download-btn" id="downloadBtn">
+          <span id="downloadText">Download</span>
+          <div class="loading" id="downloadLoader" style="display: none;"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="footer-title">About EW4</h3>
+          <p>Your premium destination for games, mods, scripts, and apps. Discover, download, and enjoy the best digital content.</p>
+        </div>
+        <div class="footer-section">
+          <h3 class="footer-title">Categories</h3>
+          <ul class="footer-links">
+            <li><a href="#">Games</a></li>
+            <li><a href="#">Mods</a></li>
+            <li><a href="#">Scripts</a></li>
+            <li><a href="#">Emulators</a></li>
+          </ul>
+        </div>
+        
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 ew4. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // App data
+    const appsData = [
+      {
+        name: "Delta Executor",
+        category: "Script",
+        size: "241.14 MB",
+        version: "v2.705",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/wTdnbC74/41-Rt-Rhh9cg-L.jpg",
+        tag: "updated"
+      },
+      {
+        name: "KRNL Executor",
+        category: "Script",
+        size: "253.17 MB",
+        version: "v2.705",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/c1T5XvGC/unnamed-2.png",
+        tag: "updated"
+      },
+      {
+        name: "BaseBall 9",
+        category: "Mod",
+        size: "241 MB",
+        version: "v5.682",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/tTB25W3t/th.jpg",
+        tag: "mod"
+      },
+      {
+        name: "Rematch",
+        category: "Game",
+        size: "670 MB",
+        version: "v5.8",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/XJqwnh5d/rematch-wbuw.jpg",
+        tag: ""
+      },
+      {
+        name: "eFootball",
+        category: "Mod",
+        size: "2.00 GB",
+        version: "v3",
+        publisher: "Konami",
+        icon: "https://i.postimg.cc/NF7TDcvh/download-2.jpg",
+        tag: "mod"
+      },
+      {
+        name: "EA Sports FC Mobile",
+        category: "Mod",
+        size: "122 MB",
+        version: "V3.89",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/63ztfjbj/unnamed.jpg",
+        tag: "mod"
+      },
+      {
+        name: "FreeFire",
+        category: "Game",
+        size: "319 MB",
+        version: "v1.111.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/5tJBZgn5/free-fire-thumbnail.png",
+        tag: "mod"
+      },
+      {
+        name: "Quarantine Zone: The Last Check",
+        category: "Game",
+        size: "6 GB",
+        version: "v4.79",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/13vWcL9n/Fw-SXEM3w-400x400.png",
+        tag: "windows"
+      },
+      {
+        name: "Hero Wars",
+        category: "Mod",
+        size: "103 MB",
+        version: "Mobile",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/5NxHzGbq/unnamed-3.png",
+        tag: "mod"
+      },
+      {
+        name: "Raid Shadow",
+        category: "Mod",
+        size: "126 MB",
+        version: "Mobile",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/mgpVJC8J/raid-shadow-legends-logo.png",
+        tag: "mod"
+      },
+      {
+        name: "Rise of Kingdoms",
+        category: "Mod",
+        size: "1.4 GB",
+        version: "Mobile",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/TPLwJvKF/unnamed-4.png",
+        tag: "mod"
+      },
+      {
+        name: "Nulls Royale",
+        category: "Mod",
+        size: "858 MB",
+        version: "Mobile",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/xjJdr2gd/nulls-royale-22160-0.jpg",
+        tag: "mod"
+      },
+      {
+        name: "Fortnite Mobile",
+        category: "Game",
+        size: "3.4 GB",
+        version: "v1.682",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/3wTbxd1G/2095-4-78528489-logo.png",
+        tag: "mobile"
+      },
+      {
+        name: "Delta Emulator",
+        category: "Emulator",
+        size: "472 MB",
+        version: "v1.7",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/pLTKYxdS/Delta-Emulator-Logo.jpg",
+        tag: "mobile"
+      },
+      {
+        name: "Codex Executor",
+        category: "Script",
+        size: "244.54 MB",
+        version: "v2.698",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/HLMRMJtN/cropped-Code-X-Executor-logo.png",
+        tag: "updated"
+      },
+      {
+        name: "Stumble Guys",
+        category: "Game",
+        size: "158 MB",
+        version: "v0.89",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/PJHCH86n/download-2.jpg",
+        tag: "mod"
+      },
+      {
+        name: "CarX Street",
+        category: "Game",
+        size: "2.2 GB",
+        version: "v1.12.2",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/t4LGw1bS/66a0edb944f84-com-carxtech-sr.png",
+        tag: "all"
+      },
+      {
+        name: "Pokemon Infinite Fusion",
+        category: "Game",
+        size: "1.7 GB",
+        version: "v6.2.4",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/26dPJ2jT/81293.jpg",
+        tag: ""
+      },
+      {
+        name: "Drama Box",
+        category: "Entertainment",
+        size: "40.51 MB",
+        version: "v4.1.2",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/NF4kWb7m/unnamed-3.png",
+        tag: "mod"
+      },
+      {
+        name: "Loklok",
+        category: "Entertainment",
+        size: "56.48 MB",
+        version: "v3.14.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/gjVgG88q/unnamed.webp",
+        tag: "mod"
+      },
+      {
+        name: "Warhammer 40,000: Dawn of War - Definitive Edition",
+        category: "Game",
+        size: "5 GB",
+        version: "v10 1.4.5",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/hjCfcbLy/channels4-profile.jpg",
+        tag: "windows"
+      },
+      {
+        name: "iPogo iPA – Install Pokémon GO Spoofing APPS on iOS iPhone, Android",
+        category: "iPoGo Hack",
+        size: "115.2 MB",
+        version: "v3.4.2",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/sDP471rV/ipogo-ipa-download.jpg",
+        tag: ""
+      },
+      {
+        name: "NewPipe",
+        category: "Apps",
+        size: "11.53 MB",
+        version: "v0.28.0",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/BbYSqzjC/logo-APPS.png",
+        tag: ""
+      },
+      {
+        name: "mo.co",
+        category: "Game",
+        size: "1.1 GB",
+        version: "v9.3.6",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/mrvVnZVY/moco-APPS-Icon-512x512.jpg",
+        tag: ""
+      },
+      {
+        name: "Grand Theft Auto San Andreas",
+        category: "Game",
+        size: "2.15 GB",
+        version: "v2.690",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/t4S7ysgS/download-2.png",
+        tag: "updated"
+      },
+      {
+        name: "99 Nights in the Forest",
+        category: "Game",
+        size: "163 MB",
+        version: "v1.690",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/SNKh4Dz4/download-2.jpg",
+        tag: "updated"
+      },
+      {
+        name: "Astute Beta",
+        category: "Game",
+        size: "156 MB",
+        version: "v10.6.90",
+        publisher: "EW4.SITE",
+        icon: "https://i.ibb.co/bM3CtHpk/images-17.jpg",
+        tag: "mod"
+      },
+      {
+        name: "ChatGPT Pro",
+        category: "AI",
+        size: "76 MB",
+        version: "v11.7.9.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.ibb.co/qHS0xwN/images.png",
+        tag: "mod"
+      },
+      {
+        name: "Speed-X",
+        category: "Apps",
+        size: "13 MB",
+        version: "v2.0",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/Qtj8f281/tumblr-e8e1f72d9784a6fdced01d7d50affe52-7b15fc71-512.jpg",
+        tag: "updated"
+      },
+      {
+        name: "Substance Syndicate Tycoon V",
+        category: "Game",
+        size: "120 MB",
+        version: "v2.0.2.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/Pxm642ps/images-18.jpg",
+        tag: "mod"
+      },
+      {
+        name: "Plants vs. zombies™ ",
+        category: "Game",
+        size: "100 MB",
+        version: "v6.1.2.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/SN09qkvj/images-19.jpg",
+        tag: "mod"
+      },
+      {
+        name: "Hollow Knight",
+        category: "Game",
+        size: "1.5 GB",
+        version: "v2.0",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/XvbkwdZz/hollow-knight-logo.png",
+        tag: "mobile"
+      },
+      {
+        name: "Rec.o.r.d",
+        category: "Game",
+        size: "320 MB",
+        version: "v3.272",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/5yNGCKd9/unnamed-3.png",
+        tag: "mod"
+      }, 
+      {
+        name: "Master Royale Infinity",
+        category: "Game",
+        size: "300 MB",
+        version: "v3.272",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/Y2vMZWvJ/master-royale-infinity.webp",
+        tag: "mod"
+      }, 
+      {
+        name: "Cyberpunk 2077",
+        category: "Game",
+        size: "5 GB",
+        version: "v5",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/4N1gDtk5/keyart-standard-en-0b37d851.jpg",
+        tag: "all"
+      },
+      {
+        name: "Offroad League Online ",
+        category: "Game",
+        size: "3.5 GB",
+        version: "v1.0.26",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/L6kC7Vd8/unnamed-3.png",
+        tag: "mod"
+      },
+      {
+        name: "PvZ Fusion Mod",
+        category: "Game",
+        size: "345 MB",
+        version: "v4.4.4.6",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/nL9vXdbx/website-pvz-icon-1.webp",
+        tag: "all"
+      },
+      {
+        name: "Geometry Dash",
+        category: "Game",
+        size: "158 MB",
+        version: "v2.207",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/bJCbstMP/images-18.jpg",
+        tag: "mod"
+      },
+      {
+        name: "Fallout Shelter",
+        category: "Game",
+        size: "745 MB",
+        version: "v1.22.5",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/wvf9MwGT/Fallout-Shelter-Icon.png",
+        tag: "all"
+      },
+      {
+        name: "Altstore",
+        category: "Apps",
+        size: "45 MB",
+        version: "v1.2.5",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/vHRdB66r/Alt-Store-logo-non-rounded.png",
+        tag: "all ios"
+      },
+      {
+        name: "WWE 2K25: Netflix Edition",
+        category: "Game",
+        size: "2.59 GB",
+        version: "v0.1074.0",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/dVNRHLCg/unnamed-(3).png",
+        tag: "mobile"
+      },
+      {
+        name: "Sonic Rumble",
+        category: "mod",
+        size: "1.3 GB",
+        version: "v1.4.1",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/W3PW6XjS/images-(19).jpg",
+        tag: "mod"
+      },
+      {
+        name: "Balatro",
+        category: "Game",
+        size: "63.0 MB",
+        version: "v0.7",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/J0TgR1XP/1727446853-balatro.png",
+        tag: "mobile"
+      },
+      {
+        name: "Red Dead Redemption NETFLIX",
+        category: "Game",
+        size: "2.7 GB",
+        version: "v1.50.60",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/XYDp1vdP/unnamed-(4).png",
+        tag: "mobile"
+      },
+       {
+        name: "SchoolBoy RunAway - Stealth",
+        category: "Game",
+        size: "213 MB",
+        version: "v1.03",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/W495fC6B/unnamed-(2).webp",
+        tag: "mobile"
+      },
+       {
+        name: "UFL Mobile 2026",
+        category: "Game",
+        size: "2.36 GB",
+        version: "v18.02",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/NMGgm9Pz/ef451fb1e0580f90ce5c470accbd6a0663f4bcd289b203cdcd7c3443d53fe83e-200.jpg",
+        tag: "all"
+      },
+       {
+        name: "MadOut2",
+        category: "Game",
+        size: "1.89 GB",
+        version: "v18.02",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/Jn12G69S/unnamed-(3).webp",
+        tag: "mod"
+      },
+      {
+        name: "Hytale",
+        category: "Game",
+        size: "1.9 GB",
+        version: "v0.1.9",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/nr6LdCwN/hytale-ddfc4db8d0717a05aa03c1b8d05d80e9279e73dd4bb175527b9c75434fa26d92.jpg",
+        tag: "mobile + pc"
+      },
+       {
+        name: "Horror Brawl Mobile",
+        category: "Game",
+        size: "283.17 MB",
+        version: "v1.5.5",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/j5ng44LY/unnamed-(3).png",
+        tag: "mobile + pc"
+      },
+      {
+        name: "Flex City",
+        category: "Game",
+        size: "583.17 MB",
+        version: "v5.6.9.0",
+        publisher: "EW4.SITE",
+        icon: "https://i.postimg.cc/mD7dgnCX/Flex-City-Mod-logo-media.webp",
+        tag: "updated"
+      }
+    ];
+
+    // DOM elements
+    const appsContainer = document.getElementById('appsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const detailsModal = document.getElementById('detailsModal');
+    const closeModal = document.getElementById('closeModal');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadText = document.getElementById('downloadText');
+    const downloadLoader = document.getElementById('downloadLoader');
+    const noResults = document.getElementById('noResults');
+
+    // Current filter
+    let currentFilter = 'all';
+
+    // Initialize the app
+    function init() {
+      renderApps(appsData);
+      setupEventListeners();
+    }
+
+    // Render apps
+    function renderApps(apps) {
+      appsContainer.innerHTML = '';
+      
+      if (apps.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      noResults.style.display = 'none';
+      
+      apps.forEach(app => {
+        const appCard = createAppCard(app);
+        appsContainer.appendChild(appCard);
+      });
+    }
+
+    // Create app card
+    function createAppCard(app) {
+      const card = document.createElement('div');
+      card.className = 'app-card';
+      card.dataset.category = app.category.toLowerCase();
+      
+      let tagHtml = '';
+      if (app.tag) {
+        tagHtml = `<span class="app-tag tag-${app.tag}">${app.tag}</span>`;
+      }
+      
+      card.innerHTML = `
+        <div class="app-card-header">
+          ${tagHtml}
+          <img src="${app.icon}" alt="${app.name}" class="app-icon">
+        </div>
+        <div class="app-card-body">
+          <h3 class="app-title">${app.name}</h3>
+          <p class="app-category">${app.category}</p>
+          <div class="app-meta">
+            <span><i class="fas fa-hdd"></i> ${app.size}</span>
+            <span><i class="fas fa-code-branch"></i> ${app.version}</span>
+          </div>
+        </div>
+      `;
+      
+      card.addEventListener('click', () => showDetails(app));
+      
+      return card;
+    }
+
+    // Show app details
+    function showDetails(app) {
+      document.getElementById('detailsTitle').textContent = app.name;
+      document.getElementById('detailsCategory').textContent = app.category;
+      document.getElementById('detailsVersion').textContent = app.version;
+      document.getElementById('detailsPublisher').textContent = app.publisher;
+      document.getElementById('detailsSize').textContent = app.size;
+      document.getElementById('detailsIcon').src = app.icon;
+      
+      detailsModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Search functionality
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        const filteredApps = filterApps(appsData, query, currentFilter);
+        renderApps(filteredApps);
+      });
+      
+      // Filter buttons
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          currentFilter = button.dataset.filter;
+          const filteredApps = filterApps(appsData, searchInput.value.toLowerCase(), currentFilter);
+          renderApps(filteredApps);
+        });
+      });
+      
+      // Close modal
+      closeModal.addEventListener('click', () => {
+        detailsModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target === detailsModal) {
+          detailsModal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // Download button
+      downloadBtn.addEventListener('click', () => {
+        downloadText.style.display = 'none';
+        downloadLoader.style.display = 'inline-block';
+        
+        // Simulate download process
+        setTimeout(() => {
+          downloadText.style.display = 'inline';
+          downloadLoader.style.display = 'none';
+          
+          // Call the original download function if available
+          if (typeof _VE === "function") {
+            _VE();
+          } else {
+            console.warn("Download function _VE not found.");
+          }
+        }, 2000);
+      });
+    }
+
+    // Filter apps
+    function filterApps(apps, query, filter) {
+      return apps.filter(app => {
+        const matchesQuery = app.name.toLowerCase().includes(query) || 
+                             app.category.toLowerCase().includes(query);
+        
+        if (filter === 'all') {
+          return matchesQuery;
+        }
+        
+        const matchesFilter = app.category.toLowerCase() === filter.toLowerCase();
+        return matchesQuery && matchesFilter;
+      });
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+
+  <!-- Original download script -->
+  <script type="text/javascript">
+    var rahzT_pLF_oHCmpc = { "it": 4428697, "key": "26182" };
+  </script>
+  <script src="https://dfmpe7igjx4jo.cloudfront.net/d185d1a.js"></script>
+</body>
+</html>
